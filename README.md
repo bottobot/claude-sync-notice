@@ -25,6 +25,22 @@ The extension reads `~/.claude/scripts/sync-vscode-claude.log`. Each line starts
 
 No log at startup means no baseline, and the extension stays silent.
 
+## The sync script
+
+`scripts/sync-vscode-claude.ps1` (Windows, PowerShell) is the script that writes the log. It copies `~/.local/bin/claude.exe` over each installed Claude Code extension's bundled `claude.exe` when the PATH copy is newer. A running exe can't be overwritten, so it renames the old one first. It checks the copied file's version and puts the original back if something fails.
+
+Set it up:
+
+1. Copy it to `~/.claude/scripts/sync-vscode-claude.ps1`. It writes its log next to itself, and the extension reads the log from there.
+2. Run it hourly and at logon, for example with a scheduled task:
+
+```
+$a = New-ScheduledTaskAction -Execute pwsh.exe -Argument "-NoProfile -File `"$HOME\.claude\scripts\sync-vscode-claude.ps1`""
+$t = @(New-ScheduledTaskTrigger -AtLogOn; New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Hours 1))
+Register-ScheduledTask -TaskName "Claude VS Code binary sync" -Action $a -Trigger $t
+```
+
+To undo, reinstall or update the Claude Code extension (it brings its own binary).
 ## Install
 
 ```
