@@ -31,11 +31,11 @@ No log at startup means no baseline, and the extension stays silent.
 
 Set it up:
 
-1. Copy it to `~/.claude/scripts/sync-vscode-claude.ps1`. It writes its log next to itself, and the extension reads the log from there.
+1. Keep it anywhere (for example, run it straight from a clone of this repo). It always writes its log to `~/.claude/scripts/sync-vscode-claude.log`, which is where the extension reads it.
 2. Run it hourly and at logon, for example with a scheduled task:
 
 ```
-$a = New-ScheduledTaskAction -Execute pwsh.exe -Argument "-NoProfile -File `"$HOME\.claude\scripts\sync-vscode-claude.ps1`""
+$a = New-ScheduledTaskAction -Execute pwsh.exe -Argument "-NoProfile -File `"<path to clone>\scripts\sync-vscode-claude.ps1`""
 $t = @(New-ScheduledTaskTrigger -AtLogOn; New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Hours 1))
 Register-ScheduledTask -TaskName "Claude VS Code binary sync" -Action $a -Trigger $t
 ```
