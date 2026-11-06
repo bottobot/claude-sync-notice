@@ -3,7 +3,8 @@
 # scheduled task "Claude VS Code binary sync". Log: ~\.claude\scripts\sync-vscode-claude.log
 # Undo: reinstall/update the extension (it brings its own binary), or rename claude.exe.replaced-* back.
 $ErrorActionPreference = 'Stop'
-$log = Join-Path $PSScriptRoot 'sync-vscode-claude.log'
+# Fixed location: the claude-sync-notice extension reads it here, wherever this script lives.
+$log = Join-Path $env:USERPROFILE '.claude\scripts\sync-vscode-claude.log'
 function Log($msg) { $line = "$(Get-Date -Format s) $msg"; Add-Content $log $line; Write-Host $line }
 
 function Get-ClaudeVersion($exe) {
