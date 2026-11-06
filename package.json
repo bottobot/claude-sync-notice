@@ -1,0 +1,12 @@
+{
+  "name": "claude-sync-notice",
+  "displayName": "Claude sync notice",
+  "description": "Warns when sync-vscode-claude.ps1 replaced the Claude binary after this window opened, and offers a reload.",
+  "version": "1.0.0",
+  "publisher": "local-rober",
+  "license": "UNLICENSED",
+  "engines": { "vscode": "^1.80.0" },
+  "main": "./extension.js",
+  "activationEvents": ["onStartupFinished"],
+  "contributes": {}
+}
